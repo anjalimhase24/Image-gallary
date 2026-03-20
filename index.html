@@ -6,6 +6,16 @@
     <title>Document</title>
 </head>
 <body>
-    
+  <h1> Product Gallery</h1>
+  <div class="filters">
+    <button onclick="filterItems('all')">All</button>
+    <button onclick="filterItems('clothes')">Clothes</button>
+    <button onclick="filterItems('shoes')">Shoes</button>
+  </div>
+  <div class="gallery" id="gallery"></div>
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <img id="lightboxImg">
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
