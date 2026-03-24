@@ -10,6 +10,7 @@
       width: 500px;
       height: 300px;
       border-radius: 10px;
+      object-fit: cover;
     }
 
     .gallary-container {
@@ -33,13 +34,37 @@
 
     .preview-img{
       height: 100px;
+      margin: 0 5px;
+      cursor: pointer;
+      border-radius: 10px;
     }
 
     .gallary-prerview{
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: 10px;
+      margin-top: 30px;
+      width: 60%;
+      margin: 0 auto;
+      overflow-x: scroll;
+    }
+
+    .image-info {
+      width: 500px;
+      margin: 12px auto 0;
+      text-align: left;
+      font-family: Arial, sans-serif;
+    }
+
+    .image-title {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .image-description {
+      margin-top: 8px;
+      color: #444;
+      line-height: 1.5;
     }
   </style>
 </head>
@@ -52,26 +77,76 @@
 
     <span class=" btn-slide btn-right" onclick="slideRight()"><b>&gt;</b></span>
   </div>
+  <div class="image-info">
+    <h3 class="image-title" id="imageTitle"></h3>
+    <p class="image-description" id="imageDescription"></p>
+  </div>
   <div class="gallary-prerview" id="gallary-preview"></div>
 
   <script>
-    const IMAGES = [
-      "https://plus.unsplash.com/premium_photo-1686310335921-38acc0679321?q=80&w=2075",
-      "https://images.unsplash.com/photo-1549366021-9f761d450615?q=80&w=706",
-      "https://images.unsplash.com/photo-1510272839903-5112a2e44bc6?q=80&w=1170",
-      "https://images.unsplash.com/photo-1544211393-7fdc8fca9f4f?q=80&w=689",
-      "https://images.unsplash.com/photo-1678371623228-364d259d4093?q=80&w=1333",
-      "https://plus.unsplash.com/premium_photo-1686507726610-a9b1e6571a1a?q=80&w=918",
-      "https://plus.unsplash.com/premium_photo-1686507182010-879f2f781e9b?q=80&w=976",
-      "https://plus.unsplash.com/premium_photo-1685783757091-80707f8f37ba?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1629355521886-286bdeab6f73?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    ];
+
+    const IMAGES =[
+      {
+        url: "https://plus.unsplash.com/premium_photo-1686310335921-38acc0679321?q=80&w=2075",
+        title: "Tiger is a wild animal",
+        discription:" Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, voluptate."
+      },
+      {
+        url: "https://images.unsplash.com/photo-1549366021-9f761d450615?q=80&w=706",
+        title: "Tiger is a wild animal",
+        discription:" Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, voluptate."
+      },
+      {
+        url: "https://images.unsplash.com/photo-1510272839903-5112a2e44bc6?q=80&w=1170",
+        title: "Tiger is a wild animal",
+        discription:" Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, voluptate."      
+      },
+      {
+        url: "https://images.unsplash.com/photo-1544211393-7fdc8fca9f4f?q=80&w=689",
+        title: "Tiger is a wild animal",
+        discription:" Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, voluptate."      
+      },
+      {
+        url: "https://images.unsplash.com/photo-1678371623228-364d259d4093?q=80&w=1333",
+        title: "Tiger is a wild animal",
+        discription:" Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, voluptate."      
+      },
+      {
+        url: "https://plus.unsplash.com/premium_photo-1686507726610-a9b1e6571a1a?q=80&w=918",
+        title: "Tiger is a wild animal",
+        discription:" Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, voluptate."      
+      },
+      {
+        url: "https://plus.unsplash.com/premium_photo-1686507182010-879f2f781e9b?q=80&w=976",
+        title: "Tiger is a wild animal",
+        discription:" Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, voluptate."      
+      },
+      {
+        url: "https://plus.unsplash.com/premium_photo-1685783757091-80707f8f37ba?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        title: "Tiger is a wild animal",
+        discription:" Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, voluptate."      
+      },
+      {
+        url: "https://images.unsplash.com/photo-1629355521886-286bdeab6f73?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        title: "Tiger is a wild animal",
+        discription:" Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, voluptate."      
+      } ,
+
+    ]
+
 
     let currentIndex = 0;
 
     function showImageIndex() {
       const imgElement = document.getElementById("mainImage");
-      imgElement.src = IMAGES[currentIndex];
+      const titleElement = document.getElementById("imageTitle");
+      const descriptionElement = document.getElementById("imageDescription");
+      const currentImage = IMAGES[currentIndex];
+
+      imgElement.src = currentImage.url;
+      imgElement.alt = currentImage.title;
+      titleElement.innerText = currentImage.title;
+      descriptionElement.innerText = currentImage.discription;
     }
 
     function slideLeft() {
@@ -105,7 +180,8 @@
       gallaryPreviewContainer.innerHTML = "";
       for (let i = 0; i < IMAGES.length; i++) {
         const currentImage = IMAGES[i];
-        gallaryPreviewContainer.innerHTML += `<img src='${IMAGES[i]}' class='preview-img'
+        gallaryPreviewContainer.innerHTML += `<img src='${currentImage.url}' class='preview-img'
+        alt='${currentImage.title}'
         onclick = 'showImage(${i})'
         />`;
 
@@ -113,6 +189,7 @@
     }
 
     createGallaryPreview();
+    showImageIndex();
   </script>
 </body>
 </html>
